@@ -50,7 +50,8 @@ router.delete("/:id", async (req, res) => {
     try {
         const deleted = await Book.findByIdAndDelete(req.params.id)
         if (!deleted) return res.status(404).json({ message: '삭제할 글 없음' })
-        res.status(201).json({message:"삭제 게시글",post: deleted})
+        const books = await Book.find().sort({ createdAt: -1 })
+        res.status(201).json({message:"삭제 게시글",book: books})
     } catch (error) {
         res.status(400).json({ message: '삭제 실패', error })
     }
